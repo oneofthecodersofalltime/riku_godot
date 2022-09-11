@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://map.png" type="Texture" id=1]
 [ext_resource path="res://mapnoground.png" type="Texture" id=2]
@@ -7,9 +7,27 @@
 [ext_resource path="res://characters/HO1.tscn" type="PackedScene" id=5]
 [ext_resource path="res://characters/HO3.tscn" type="PackedScene" id=6]
 [ext_resource path="res://characters/HO2.tscn" type="PackedScene" id=7]
+[ext_resource path="res://roadend.gd" type="Script" id=8]
+[ext_resource path="res://house_sw.gd" type="Script" id=9]
+[ext_resource path="res://stay_town.gd" type="Script" id=10]
+[ext_resource path="res://house_nw.gd" type="Script" id=11]
+[ext_resource path="res://house_ne.gd" type="Script" id=12]
+[ext_resource path="res://house_se.gd" type="Script" id=13]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 56, 9.75 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 698.5, 10 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 10, 409.25 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 710.5, 50.5 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 15, 407 )
 
 [node name="main" type="Node2D"]
 
@@ -27,6 +45,7 @@ scale = Vector2( 8.54828, 8.17045 )
 texture = ExtResource( 2 )
 
 [node name="roadend" type="Area2D" parent="."]
+script = ExtResource( 8 )
 
 [node name="roadend_shape" type="CollisionShape2D" parent="roadend"]
 position = Vector2( 603, 710.75 )
@@ -45,21 +64,52 @@ position = Vector2( 705, 523 )
 position = Vector2( 437, 597 )
 
 [node name="house_sw" type="Area2D" parent="."]
+script = ExtResource( 9 )
 
 [node name="house_sw_shape" type="CollisionPolygon2D" parent="house_sw"]
 polygon = PoolVector2Array( 161, 293, 159, 531, 191, 557, 403, 559, 402, 318, 374, 292 )
 
 [node name="house_nw" type="Area2D" parent="."]
+script = ExtResource( 11 )
 
 [node name="house_nw_shape" type="CollisionPolygon2D" parent="house_nw"]
 polygon = PoolVector2Array( 204, 8, 204, 180, 230, 205, 444, 205, 444, 31, 426, 5 )
 
 [node name="house_ne" type="Area2D" parent="."]
+script = ExtResource( 12 )
 
 [node name="house_ne_shape" type="CollisionPolygon2D" parent="house_ne"]
 polygon = PoolVector2Array( 760, 64, 786, 39, 1000, 40, 1002, 179, 973, 203, 759, 205 )
 
 [node name="house_se" type="Area2D" parent="."]
+script = ExtResource( 13 )
 
 [node name="house_se_shape" type="CollisionPolygon2D" parent="house_se"]
 polygon = PoolVector2Array( 751, 327, 778, 301, 992, 302, 992, 466, 968, 492, 751, 492 )
+
+[node name="stay_town" type="Area2D" parent="."]
+script = ExtResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="stay_town"]
+position = Vector2( 649.5, -69 )
+shape = SubResource( 2 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="stay_town"]
+position = Vector2( -66, 352.75 )
+shape = SubResource( 3 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="stay_town"]
+position = Vector2( 652.5, 829 )
+shape = SubResource( 4 )
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="stay_town"]
+position = Vector2( 1361, 354 )
+shape = SubResource( 5 )
+
+[connection signal="area_entered" from="roadend" to="roadend" method="_on_roadend_area_entered"]
+[connection signal="area_entered" from="house_sw" to="house_sw" method="_on_house_sw_area_entered"]
+[connection signal="area_entered" from="house_nw" to="house_nw" method="_on_house_nw_area_entered"]
+[connection signal="area_entered" from="house_ne" to="house_ne" method="_on_house_ne_area_entered"]
+[connection signal="area_entered" from="house_se" to="house_se" method="_on_house_se_area_entered"]
+[connection signal="area_exited" from="house_se" to="house_se" method="_on_house_se_area_exited"]
+[connection signal="area_entered" from="stay_town" to="stay_town" method="_on_stay_town_area_entered"]
