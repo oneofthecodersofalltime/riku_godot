@@ -12,6 +12,7 @@ onready var mc_side2 = $McSide2
 var input_vector = Vector2.ZERO
 
 var speed = 200
+var boost_speed = 100
 
 var animation = 0
 
@@ -25,6 +26,15 @@ func _ready():
 func _physics_process(delta):
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	if Input.get_action_strength("ui_down") == 1 and Input.get_action_strength("boost") == 1:
+		global_position += input_vector * boost_speed * delta
+	if Input.get_action_strength("ui_up") == 1 and Input.get_action_strength("boost") == 1:
+		global_position += input_vector * boost_speed * delta
+	if Input.get_action_strength("ui_right") == 1 and Input.get_action_strength("boost") == 1:
+		global_position += input_vector * boost_speed * delta
+	if Input.get_action_strength("ui_left") == 1 and Input.get_action_strength("boost") == 1:
+		global_position += input_vector * boost_speed * delta
+	
 
 	if Input.get_action_strength("ui_down") == 1:
 		mc_back.hide()
